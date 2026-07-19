@@ -9,7 +9,7 @@ typedef struct {
 } List;
 
 List *create_list(void) {
-    List *list = malloc(sizeof(List));
+    List *list = malloc(sizeof(*list));
     
     if (list == NULL) {
         fprintf(stderr, "Memory allocation failed!\n");
@@ -18,7 +18,7 @@ List *create_list(void) {
 
     list->capacity = 4;
     list->size = 0;
-    list->data = malloc(sizeof(int) * list->capacity);
+    list->data = malloc(sizeof(*list->data) * list->capacity);
     
     if (list->data == NULL) {
         free(list);
@@ -56,7 +56,7 @@ int set(List *list, int idx, int value) {
 
 int double_capacity(List *list) {
     int new_capacity = list->capacity * 2;
-    int* new_data = realloc(list->data, sizeof(int) * new_capacity);
+    int* new_data = realloc(list->data, sizeof(*list->data) * new_capacity);
 
     if (new_data == NULL) {
         fprintf(stderr, "Memory allocation failed!\n");

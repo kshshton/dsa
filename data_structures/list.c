@@ -30,6 +30,12 @@ List* create_list() {
     return list;
 }
 
+bool purge_list(List* list) {
+    free(list->data);
+    free(list);
+    return true;
+}
+
 bool get(List* list, int idx, int* value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
@@ -50,7 +56,7 @@ bool set(List* list, int idx, int value) {
     return true;
 }
 
-void double_capacity(List* list) {
+bool double_capacity(List* list) {
     int new_capacity = list->capacity * 2;
     int* new_data = realloc(list->data, sizeof(int) * new_capacity);
 
@@ -61,15 +67,17 @@ void double_capacity(List* list) {
 
     list->capacity = new_capacity;
     list->data = new_data;
+    return true;
 }
 
-void append(List* list, int value) {
+bool append(List* list, int value) {
     if (list->capacity == list->size) {
         double_capacity(list);
     }
 
     list->data[list->size] = value;
     list->size++;
+    return true;
 }
 
 bool insert(List* list, int idx, int value) {
@@ -94,15 +102,16 @@ bool insert(List* list, int idx, int value) {
     return true;
 }
 
-void pop(List* list) {
-    if (list->size == 0) return;
+bool pop(List* list) {
+    if (list->size == 0) return false;
     list->size--;
+    return true;
 }
 
-void remove_at(List* list, int idx) {
+bool remove_at(List* list, int idx) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return;
+        return false;
     }
     
     for (int i = idx; i < list->size - 1; i++) {
@@ -110,6 +119,7 @@ void remove_at(List* list, int idx) {
     }
 
     list->size--;
+    return true;
 }
 
 int main() {
@@ -125,5 +135,6 @@ int main() {
         printf("index = %d, value = %d, size = %d, capacity = %d\n", i, list->data[i], list->size, list->capacity);
     }
 
+    purge_list(list);
     return 0;
 }

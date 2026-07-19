@@ -4,13 +4,13 @@
 
 
 typedef struct {
-    int* data;
+    int *data;
     int size;
     int capacity;
 } List;
 
-List* create_list() {
-    List* list = malloc(sizeof(List));
+List *create_list(void) {
+    List *list = malloc(sizeof(List));
     
     if (list == NULL) {
         fprintf(stderr, "Memory allocation failed!\n");
@@ -30,13 +30,13 @@ List* create_list() {
     return list;
 }
 
-bool purge_list(List* list) {
+bool purge_list(List *list) {
     free(list->data);
     free(list);
     return true;
 }
 
-bool get(List* list, int idx, int* value) {
+bool get(const List *list, int idx, int *value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
         return false;
@@ -46,7 +46,7 @@ bool get(List* list, int idx, int* value) {
     return true;
 }
 
-bool set(List* list, int idx, int value) {
+bool set(List *list, int idx, int value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
         return false;
@@ -56,7 +56,7 @@ bool set(List* list, int idx, int value) {
     return true;
 }
 
-bool double_capacity(List* list) {
+bool double_capacity(List *list) {
     int new_capacity = list->capacity * 2;
     int* new_data = realloc(list->data, sizeof(int) * new_capacity);
 
@@ -70,7 +70,7 @@ bool double_capacity(List* list) {
     return true;
 }
 
-bool append(List* list, int value) {
+bool append(List *list, int value) {
     if (list->capacity == list->size) {
         double_capacity(list);
     }
@@ -80,7 +80,7 @@ bool append(List* list, int value) {
     return true;
 }
 
-bool insert(List* list, int idx, int value) {
+bool insert(List *list, int idx, int value) {
     if (idx < 0) {
         fprintf(stderr, "Invalid argument!\n");
         return false;
@@ -102,13 +102,13 @@ bool insert(List* list, int idx, int value) {
     return true;
 }
 
-bool pop(List* list) {
+bool pop(List *list) {
     if (list->size == 0) return false;
     list->size--;
     return true;
 }
 
-bool remove_at(List* list, int idx) {
+bool remove_at(List *list, int idx) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
         return false;
@@ -123,7 +123,7 @@ bool remove_at(List* list, int idx) {
 }
 
 int main() {
-    List* list = create_list();
+    List *list = create_list();
     append(list, 1);    // [1]
     append(list, 2);    // [1, 2]
     insert(list, 5, 3); // [1, 2, 3]

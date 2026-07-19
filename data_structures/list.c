@@ -10,26 +10,38 @@ typedef struct {
 
 List* create_list() {
     List* list = malloc(sizeof(List));
+    
+    if (list == NULL) {
+        fprintf(stderr, "Memory allocation failed!\n");
+        exit(EXIT_FAILURE);
+    }
 
     list->capacity = 4;
     list->size = 0;
     list->data = malloc(sizeof(int) * list->capacity);
+    
+    if (list->data == NULL) {
+        free(list);
+        fprintf(stderr, "Memory allocation failed!\n");
+        exit(EXIT_FAILURE);
+    }
 
     return list;
 }
 
 int get(List* list, int idx) {
-    if (idx < 0 || idx > list->size - 1) {
+    if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
     return list->data[idx];
 }
 
 void set(List* list, int idx, int value) {
-    if (idx < 0 || idx > list->size - 1) {
+    if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
+        return;
     }
 
     list->data[idx] = value;
@@ -40,7 +52,7 @@ void double_capacity(List* list) {
     int* new_data = realloc(list->data, sizeof(int) * list->capacity);
 
     if (new_data == NULL) {
-        printf("Memory allocation failed!\n");
+        fprintf(stderr, "Memory allocation failed!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -57,7 +69,10 @@ void append(List* list, int value) {
 }
 
 void insert(List* list, int idx, int value) {
-    if (idx < 0) fprintf(stderr, "Invalid argument!\n");
+    if (idx < 0) {
+        fprintf(stderr, "Invalid argument!\n");
+        return;
+    }
 
     if (idx > list->size) idx = list->size;
 
@@ -67,19 +82,24 @@ void insert(List* list, int idx, int value) {
 
     list->size++;
 
-    for (int i = idx; i < list->size; i++) {
-        int temp = list->data[idx];
-        list->data[i++] = temp;
+    for (int i = list->size - 1; i > idx; i--) {
+        list->data[i] = list->data[i - 1];
     }
 
     list->data[idx] = value;
 }
 
 void pop(List* list) {
+    if (list->size == 0) return;
     list->size--;
 }
 
 void remove_at(List* list, int idx) {
+    if (idx < 0 || idx >= list->size) {
+        fprintf(stderr, "Invalid argument!\n");
+        return;
+    }
+    
     for (int i = idx; i < list->size - 1; i++) {
         list->data[i] = list->data[i + 1];
     }

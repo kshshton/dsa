@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 
 typedef struct {
@@ -30,33 +29,32 @@ List *create_list(void) {
     return list;
 }
 
-bool purge_list(List *list) {
+void purge_list(List *list) {
     free(list->data);
     free(list);
-    return true;
 }
 
-bool get(const List *list, int idx, int *value) {
+int get(const List *list, int idx, int *value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return false;
+        return -1;
     }
 
     *value = list->data[idx];
-    return true;
+    return 0;
 }
 
-bool set(List *list, int idx, int value) {
+int set(List *list, int idx, int value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return false;
+        return -1;
     }
 
     list->data[idx] = value;
-    return true;
+    return 0;
 }
 
-bool double_capacity(List *list) {
+int double_capacity(List *list) {
     int new_capacity = list->capacity * 2;
     int* new_data = realloc(list->data, sizeof(int) * new_capacity);
 
@@ -67,23 +65,23 @@ bool double_capacity(List *list) {
 
     list->capacity = new_capacity;
     list->data = new_data;
-    return true;
+    return 0;
 }
 
-bool append(List *list, int value) {
+int append(List *list, int value) {
     if (list->capacity == list->size) {
         double_capacity(list);
     }
 
     list->data[list->size] = value;
     list->size++;
-    return true;
+    return 0;
 }
 
-bool insert(List *list, int idx, int value) {
+int insert(List *list, int idx, int value) {
     if (idx < 0) {
         fprintf(stderr, "Invalid argument!\n");
-        return false;
+        return -1;
     }
 
     if (idx > list->size) idx = list->size;
@@ -99,19 +97,19 @@ bool insert(List *list, int idx, int value) {
     }
 
     list->data[idx] = value;
-    return true;
+    return 0;
 }
 
-bool pop(List *list) {
-    if (list->size == 0) return false;
+int pop(List *list) {
+    if (list->size == 0) return -1;
     list->size--;
-    return true;
+    return 0;
 }
 
-bool remove_at(List *list, int idx) {
+int remove_at(List *list, int idx) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return false;
+        return -1;
     }
     
     for (int i = idx; i < list->size - 1; i++) {
@@ -119,7 +117,7 @@ bool remove_at(List *list, int idx) {
     }
 
     list->size--;
-    return true;
+    return 0;
 }
 
 int main() {

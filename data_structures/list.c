@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 
 typedef struct {
@@ -29,33 +30,36 @@ List* create_list() {
     return list;
 }
 
-int get(List* list, int idx) {
+bool get(List* list, int idx, int* value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        exit(EXIT_FAILURE);
+        return false;
     }
 
-    return list->data[idx];
+    *value = list->data[idx];
+    return true;
 }
 
-void set(List* list, int idx, int value) {
+bool set(List* list, int idx, int value) {
     if (idx < 0 || idx >= list->size) {
         fprintf(stderr, "Invalid argument!\n");
-        return;
+        return false;
     }
 
     list->data[idx] = value;
+    return true;
 }
 
 void double_capacity(List* list) {
-    list->capacity *= 2;
-    int* new_data = realloc(list->data, sizeof(int) * list->capacity);
+    int new_capacity = list->capacity * 2;
+    int* new_data = realloc(list->data, sizeof(int) * new_capacity);
 
     if (new_data == NULL) {
         fprintf(stderr, "Memory allocation failed!\n");
         exit(EXIT_FAILURE);
     }
 
+    list->capacity = new_capacity;
     list->data = new_data;
 }
 
@@ -68,10 +72,10 @@ void append(List* list, int value) {
     list->size++;
 }
 
-void insert(List* list, int idx, int value) {
+bool insert(List* list, int idx, int value) {
     if (idx < 0) {
         fprintf(stderr, "Invalid argument!\n");
-        return;
+        return false;
     }
 
     if (idx > list->size) idx = list->size;
@@ -87,6 +91,7 @@ void insert(List* list, int idx, int value) {
     }
 
     list->data[idx] = value;
+    return true;
 }
 
 void pop(List* list) {
@@ -115,7 +120,6 @@ int main() {
     set(list, 1, 10);   // [1, 10, 3]
     remove_at(list, 0); // [10, 3]
     pop(list);          // [10]
-    printf("%d\n", get(list, 0));
 
     for (int i = 0; i < list->size; i++) {
         printf("index = %d, value = %d, size = %d, capacity = %d\n", i, list->data[i], list->size, list->capacity);

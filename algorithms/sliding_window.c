@@ -8,11 +8,13 @@ int main() {
     int k = 3; // window size
     
     int window_sum = 0;
+
     for (int i = 0; i < k; i++) {
         window_sum += arr[i];
     }
     
     int max_sum = window_sum;
+
     for (int i = k; i < n; i++) {
         printf(
             "%d - %d + %d = %d\n",

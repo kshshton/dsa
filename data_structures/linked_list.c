@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct Node {
+    int value;
+    struct Node *next;
+} Node;
+
+void insert_up(Node **head, int value) {
+    Node *new_node = malloc(sizeof(Node));
+
+    new_node->value = value;
+    new_node->next = *head;
+    *head = new_node;
+}
+
+void insert_back(Node **head, int value) {
+    Node *new_node = malloc(sizeof(Node));
+
+    new_node->value = value;
+    new_node->next = NULL;
+
+    Node *curr = *head;
+    
+    while (curr->next != NULL) {
+        curr = curr->next;
+    }
+    
+    curr->next = new_node;
+}
+
+int contains(Node *head, int value) {
+    Node *curr = head;
+    
+    while (curr != NULL) {
+        if (curr->value == value) return 1;
+        curr = curr->next;
+    }
+    
+    return 0;
+}
+
+void remove_value(Node **head, int value) {
+    Node *curr = *head;
+    Node *prev = NULL;
+    
+    while (curr != NULL) {
+        if (curr->value == value) {
+            if (prev == NULL)
+                *head = curr->next;
+            else
+                prev->next = curr->next;
+            free(curr);
+            return;
+        }
+        
+        prev = curr;
+        curr = curr->next;
+    }
+}
+
+void display(Node *head) {
+    Node *curr = head;
+
+    while(curr != NULL) {
+        printf("%d\n", curr->value);
+        curr = curr->next;
+    }
+    
+    if (curr == NULL) puts("NULL");
+}
+
+int main() {
+    Node *head = NULL;
+    
+    insert_up(&head, 10);
+    insert_up(&head, 11);
+    insert_up(&head, 12);
+    insert_up(&head, 13);
+    insert_up(&head, 14);
+    insert_up(&head, 15);
+
+    contains(head, 10) ? puts("Yes") : puts("No");
+    contains(head, 9) ? puts("Yes") : puts("No");
+    
+    insert_back(&head, 16);
+    insert_back(&head, 17);
+
+    remove_value(&head, 12);
+    remove_value(&head, 15);
+    remove_value(&head, 17);
+
+    display(head);
+
+    return 0;
+}

@@ -1,17 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-
-typedef struct Node {
-    int value;
-    struct Node *next;
-} Node;
-
-typedef struct {
-    int capacity;   // the number of buckets
-    int size;       // the number of stored elements
-    Node **buckets; // an array of pointers to linked lists 
-} HashSet;
+#include "hash_set.h"
 
 int hash(int value, int capacity) {
     if (value < 0)
@@ -72,21 +59,4 @@ void display(HashSet *set) {
             curr = curr->next;
         }
     }
-}
-
-int main() {
-    HashSet *set = createSet(5);
-    add(set, 2);
-    add(set, 4);
-    add(set, 4);
-    add(set, 5);
-    add(set, 6);
-    add(set, 6);
-    
-    display(set);
-    
-    contains(set, 3) ? puts("Yes") : puts("No");
-    contains(set, 4) ? puts("Yes") : puts("No");
-
-    return 0;
 }

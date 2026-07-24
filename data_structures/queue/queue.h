@@ -3,6 +3,11 @@
 
 #include <stdio.h>
 
+/* Default queue capacity. Can be overridden with -DMAX=<size> */
+#ifndef MAX
+#define MAX 5
+#endif
+
 /* Global queue variables */
 
 extern int queue[];

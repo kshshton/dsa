@@ -22,7 +22,7 @@ int is_full(void);
 
 void enqueue(int value);
 
-void dequeue(void);
+int dequeue(void);
 
 int peek(void);
 

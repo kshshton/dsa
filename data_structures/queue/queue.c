@@ -21,10 +21,10 @@ void enqueue(int value) {
     queue[++rear] = value;
 }
 
-void dequeue() {
+int dequeue() {
     if (is_empty()) {
         puts("Empty queue!");
-        return;
+        return 0;
     }
     
     front++;
@@ -32,6 +32,8 @@ void dequeue() {
     if (front > rear) {
         front = rear = -1;
     }
+    
+    return queue[front];
 }
 
 int peek() {

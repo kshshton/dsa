@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-# define MAX 10
+#define MAX 10
 
 // Goal: Explore as far as possible along one path before backtracking.
 
@@ -22,11 +22,6 @@
 // 3 |  0 1 0 0 0 0
 // 4 |  0 1 0 0 0 1
 // 5 |  0 0 0 0 1 0
-
-// Travesal:
-// 0 -> 1 -> 3
-//        -> 4 -> 5
-//   -> 2
 
 // Order:
 // 013452

@@ -27,13 +27,14 @@ int dequeue() {
         return 0;
     }
     
+    int value = queue[front];
     front++;
     
     if (front > rear) {
         front = rear = -1;
     }
     
-    return queue[front];
+    return value;
 }
 
 int peek() {

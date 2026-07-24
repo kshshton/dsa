@@ -3,11 +3,9 @@
 
 #include <stdio.h>
 
-#define MAX 5
-
 /* Global queue variables */
 
-extern int queue[MAX];
+extern int queue[];
 extern int front;
 extern int rear;
 

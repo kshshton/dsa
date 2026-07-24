@@ -36,7 +36,7 @@ void dfs(int node) {
     printf("%d", node);
     
     for (int i = 0; i < vertices; i++) {
-        if (graph[node][i] == 1 && visited[i] == 0) dfs(i);
+        if (graph[node][i] && !visited[i]) dfs(i);
     }
 }
 
